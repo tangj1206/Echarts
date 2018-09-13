@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大数据中心</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+        }
+
+        .wrap {
+            background: url('./imgs/background.png') no-repeat center;
+        }
+        
+        #chart{
+            margin: 0 auto;
+        }
+
+        .tooltip {
+            width: 100px;
+            height: 65px;
+            line-height: 65px;
+            text-align: center;
+            background-size: 100% 100%;
+            color: #42ca83;
+            background: url(./imgs/tip.png) no-repeat center;
+        }
+
+        @font-face {
+            font-family: 'myFont';
+            src: url('./fonts/DS-DIGIB.TTF');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="chart" style="width:600px;height:600px;"></div>
+    </div>
+    <!-- <script type="text/javascript" src="/libs/echarts-3.8.5.js"></script> -->
+    <script type="text/javascript" src="/libs/echarts-4.1.0.js"></script>
+    <script type="text/javascript" src="/libs/data2.js"></script>
+    <script type="text/javascript">
+        //初始化dom元素
+        var myChart = echarts.init(document.getElementById('chart'));
+
+        //配置项
+        var option = {
+            legend: [{
+                zlevel:1,
+                selectedMode: false,
+                right: 0,
+                bottom: 20,
+                itemHeight: 25,
+                orient: 'vertical',
+                textStyle: {
+                    color: '#fff'
+                },
+                data: categories
+            }],
+            xAxis: {
+                show: false,
+                type: 'value'
+            },
+            yAxis: {
+                show: false,
+                type: 'value'
+            },
+            series: [
+                {
+                    name: 'center',
+                    type: 'graph',
+                    layout: 'none',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    z: 3,
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 14
+                            },
+                            formatter: function (params) {
+                                let txt = ''
+                                if (params.data.speed !== undefined) {
+                                    txt = params.data.speed
+                                }
+                                return txt
+                            },
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'bottom',
+                            show: true,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    data: data,
+                    links: links,
+                    categories: categories
+                },
+                {
+                    name: 'lines',
+                    type: 'lines',
+                    coordinateSystem: 'cartesian2d',
+                    zlevel: 4,
+                    effect: {
+                        show: true,
+                        //smooth:true,
+                        delay:100,
+                        trailLength: 0.001,
+                        symbol: "arrow",
+                        period: 0.88,
+                        symbolSize: 7,
+                        loop:true
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: colors[0],
+                            width: 2,
+                            opacity: 1,
+                            curveness: curveness//贝塞尔曲线度
+                        }
+                    },
+                    animation:true,
+                    data: linesData
+                },
+                {
+                    name: '数字',
+                    type: 'scatter',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    symbolSize: [94, 64],
+                    symbolOffset: ['50%', '-50%'],
+                    label: {
+                        normal: {
+                            formatter: function (params) {
+                                var str = '';
+                                str += '{a|' + params.value[2] + '}';
+                                str += '{b|\n' + params.value[3] + '}';
+                                return str;
+                            },
+                            rich: {
+                                a: {
+                                    color: colors[0],
+                                    fontFamily: 'myFont',
+                                    fontSize: 20
+                                },
+                                b: {
+                                    color: colors[1],
+                                    fontFamily: 'myFont',
+                                    fontSize: 20
+                                }
+                            },
+                            color: '#fff',//此行代码为了解决labelformater字体描边问题
+                            show: true
+                        }
+                    },
+                    hoverAnimation: true,
+                    symbol: 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABBCAYAAABYUhMgAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkE2NEI4RjI1QjBCQTExRTg4MTZBRjE0RTUxQjA2QTY5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkE2NEI4RjI2QjBCQTExRTg4MTZBRjE0RTUxQjA2QTY5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTY0QjhGMjNCMEJBMTFFODgxNkFGMTRFNTFCMDZBNjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QTY0QjhGMjRCMEJBMTFFODgxNkFGMTRFNTFCMDZBNjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6ulUk3AAABDklEQVR42uzczwmCYBjAYY0OztAeLVBnZ3CRbrZIM3RuAd3DGTqmpPAh/fvIMOH5QYRGl4fPF09vuqvK5EHnRD9t/eK3HM/7LttD9H/29fG8QvcfJ34YMVvj5uPTG/N05K9GTd6jGzUTjppuvITXRs2Mo2YTXGf9dTa6ry9GTftUNON7TvxMgQcPXuDBCzx4gQcv8OAFHjx4BODBCzx4gQcv8OAFHrzAgwcv8OAFHrzAgxd48AIPXuDBgxd48AIPXuDBC/zCSndVGS4EOrWfov/WdF2T+563erjxbP1hwWq6ug1N3U6ycBmcUWPGgxd48Jq47q2mGb32NFii3lic+KWd+HGWOUcUs9Q57CbAAOtRJ2ksaJrTAAAAAElFTkSuQmCC',
+                    data: scatterData,
+                }
+            ]
+        }
+
+        var timmer = null,
+            speed=1000;
+            //获取原始数据
+            getOrignData();
+            //等分圆
+            getPoint(r, ox, oy, orignData.items.length);
+            //格式化各个平台
+            initItems();
+            //初始化关系
+            initLinks();
+             //流动数据绘制
+             linesUpdate();
+            //数据显示框
+            initScatter();
+            console.log(linesData);
+            option.series[0].data = data;
+            option.series[0].links = links;
+            option.series[1].data = linesData;
+            option.series[2].data = scatterData;
+            myChart.setOption(option);
+        timmer = setTimeout(function () {
+            //获取原始数据
+            getOrignData();
+            //从新构造点数据
+            items = [];
+            initItems();
+            //流动数据绘制
+            linesData=[];
+            option.series[1].data = linesData;
+            myChart.setOption(option);
+            linesUpdate();
+            //数据显示框
+            initScatter();
+            
+            option.series[1].data = linesData;
+            option.series[2].data = scatterData;
+
+            myChart.setOption(option);
+            
+            setTimeout(arguments.callee, speed);
+        }, speed)
+    </script>
+</body>
+
+</html>

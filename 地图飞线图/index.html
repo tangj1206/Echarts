@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>关系飞线图</title>
+</head>
+
+<body>
+    <div id="chart" style="height:600px;width:1000px;"></div>
+    <script src="libs/echarts.js" type="text/javascript"></script>
+    <script src="http://gallerybox.echartsjs.com/dep/echarts/map/js/china.js" type="text/javascript"></script>
+    <script src="data.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var turn = false;
+            var oldName = '';
+            var oldType = '';
+
+            var chart = echarts.init(document.querySelector('#chart'));
+
+            //鼠标悬浮时的数据
+            function getOverData(key) {
+                option.series[0].data = list[key];
+                chart.setOption(option);
+            }
+
+            // 使用刚指定的配置项和数据显示图表。
+            chart.setOption(option);
+            chart.on('mouseover', function (params) {
+                if (params.componentType === 'series') {
+                    oldType = 'series';
+                    if (params.name != '') {
+                        oldName = params.name;
+                        getOverData( params.name);
+                    } else {
+                        option.series[0].data = allLines;
+                        chart.setOption(option);
+                    }
+                } else {
+                    if(params.componentType != oldType){
+                        option.series[0].data = allLines;
+                        chart.setOption(option);
+                    }
+                    oldType = 'geo';
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

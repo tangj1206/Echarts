@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大数据中心</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+        }
+
+        .wrap {
+            background: url('./imgs/background.png') no-repeat center;
+        }
+        
+        #chart{
+            margin: 0 auto;
+        }
+
+        .tooltip {
+            width: 100px;
+            height: 65px;
+            line-height: 65px;
+            text-align: center;
+            background-size: 100% 100%;
+            color: #42ca83;
+            background: url(./imgs/tip.png) no-repeat center;
+        }
+
+        @font-face {
+            font-family: 'myFont';
+            src: url('./fonts/DS-DIGIB.TTF');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="chart" style="width:600px;height:600px;"></div>
+    </div>
+    <script type="text/javascript" src="/libs/echarts.js"></script>
+    <script type="text/javascript" src="/libs/data.js"></script>
+    <script type="text/javascript">
+        //初始化dom元素
+        var myChart = echarts.init(document.getElementById('chart'));
+        //配置项
+        var option = {
+
+            xAxis: {
+                show: false,
+                type: 'value',
+                splitNumber: 5
+            },
+            yAxis: {
+                show: false,
+                type: 'value',
+                splitNumber: 5
+            },
+            series: [
+                {
+                    name: 'center',
+                    type: 'graph',
+                    layout: 'none',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    symbol: 'image://../imgs/main1.png',
+                    symbolSize: 94,
+                    label: {
+                        normal: {
+                            position: 'bottom',
+                            show: true,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    data: [{
+                        name: '大数据中心',
+                        value: center
+                    }]
+                },
+                {
+                    name: 'other',
+                    type: 'graph',
+                    layout: 'none',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    label: {
+                        normal: {
+                            position: 'bottom',
+                            show: true,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    data: graphData
+                },
+                {
+                    name: 'lines',
+                    type: 'lines',
+                    coordinateSystem: 'cartesian2d',
+                    zlevel: 0,
+                    effect: {
+                        show: true,
+                        period: 1.5,
+                        trailLength: 0.02,
+                        symbol: 'arrow',
+                        symbolSize: 7,
+                        loop: false
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: function () {
+                                return getColorPalette(1);
+                            }(),
+                            width: 2,
+                            opacity: 1,
+                            curveness: 0.1//贝塞尔曲线度
+                        }
+                    },
+                    data: linesData
+                },
+                {
+                    name: '数字',
+                    type: 'scatter',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    symbolSize: [94, 64],
+                    symbolOffset: ['50%', '-50%'],
+                    label: {
+                        normal: {
+                            formatter: function (params) {
+                                var str = '';
+                                str += '{a|' + params.value[2] + '}';
+                                str += '{b|\n' + params.value[3] + '}';
+                                return str;
+                            },
+                            rich: {
+                                a: {
+                                    color: getColorPalette(0),
+                                    borderColor: getColorPalette(0),
+                                    fontFamily: 'myFont',
+                                    fontSize: 20
+                                },
+                                b: {
+                                    color: getColorPalette(1),
+                                    borderColor: getColorPalette(1),
+                                    fontFamily: 'myFont',
+                                    fontSize: 20
+                                }
+                            },
+                            color: '#fff',//此行代码为了解决labelformater字体描边问题
+                            show: true
+                        }
+                    },
+                    hoverAnimation: true,
+                    symbol: 'image://../imgs/tip.png',
+                    data: scatterData,
+                }
+            ]
+        }
+
+
+
+        /*** 核心控制器 */
+        var speed = 2000;//默认1s 刷新一次数据
+        var timmer = setTimeout(function () {
+            //生成随机数据
+             nodes = nodes.map(function (item, index) {
+                return {
+                    name: item.name,
+                    active: Boolean(Math.round(Math.random()*1)),
+                    value: [item.value[0]++, item.value[1]++]
+                }
+            })
+
+            //初始化graph点坐标
+            initGraph();
+            //初始化飞线数据
+            initLines();
+            //初始化scatter坐标
+            initScatter();
+
+            // 重新赋值graph点坐标
+            option.series[1].data = graphData;
+            // 重新赋值飞线数据
+            option.series[2].data = linesData;
+            // 重新赋值scatter数据
+            option.series[3].data = scatterData;
+
+            myChart.setOption(option, {
+                notMerge: true
+            });
+           //setTimeout(arguments.callee, speed);
+        }, speed)
+
+    </script>
+</body>
+
+</html>
