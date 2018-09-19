@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大数据中心</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+        }
+
+        .wrap {
+            background: url('./imgs/background.png') no-repeat center;
+        }
+        
+        #chart{
+            margin: 0 auto;
+        }
+
+        .tooltip {
+            width: 100px;
+            height: 65px;
+            line-height: 65px;
+            text-align: center;
+            background-size: 100% 100%;
+            color: #42ca83;
+            background: url(./imgs/tip.png) no-repeat center;
+        }
+
+        @font-face {
+            font-family: 'myFont';
+            src: url('./fonts/DS-DIGIB.TTF');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="chart" style="width:1020px;height:740px;"></div>
+    </div>
+    <!-- <script type="text/javascript" src="/libs/echarts-3.8.5.js"></script> -->
+    <script type="text/javascript" src="/libs/echarts-4.1.0.js"></script>
+    <script type="text/javascript" src="/libs/data3.js"></script>
+    <script type="text/javascript">
+        //初始化dom元素
+        var myChart = echarts.init(document.getElementById('chart'));
+
+        //配置项
+        var option = {
+            legend: [{
+                zlevel: 1,
+                selectedMode: false,
+                right: 0,
+                bottom: 20,
+                itemHeight: 25,
+                orient: 'vertical',
+                textStyle: {
+                    color: '#fff'
+                },
+                data: []
+            }],
+            xAxis: {
+                show: false,
+                type: 'value'
+            },
+            yAxis: {
+                show: false,
+                type: 'value'
+            },
+            series: [
+                {
+                    name: 'center',
+                    type: 'graph',
+                    layout: 'none',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    z: 3,
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 14
+                            },
+                            formatter: function (params) {
+                                let txt = ''
+                                if (params.data.speed !== undefined) {
+                                    txt = params.data.speed
+                                }
+                                return ''
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            formatter: function (item) {
+                                if (item.data.data) {
+                                    return item.name + '\n' + item.data.data;
+                                }
+                                return item.name;
+                            },
+                            position: 'bottom',
+                            show: true,
+                            textStyle: {
+                                color: '#42ca83'
+                            }
+                        }
+                    },
+                    data: data,
+                    links: links,
+                    categories: categories
+                },
+                {
+                    name: 'lines',
+                    type: 'lines',
+                    coordinateSystem: 'cartesian2d',
+                    zlevel: 4,
+                    effect: {
+                        show: true,
+                        smooth: true,
+                        //delay:100,
+                        trailLength: 0.01,
+                        symbol: "arrow",
+                        period: 2,
+                        symbolSize: 7,
+                        loop: false
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: colors[0],
+                            width: 2,
+                            opacity: 1,
+                            curveness: curveness//贝塞尔曲线度
+                        }
+                    },
+                    animation: true,
+                    data: linesData
+                },
+                {
+                    name: '数字',
+                    type: 'scatter',
+                    zlevel: 3,
+                    coordinateSystem: 'cartesian2d',
+                    symbolSize: [94, 64],
+                    symbolOffset: ['-50%', '-50%'],
+                    label: {
+                        normal: {
+                            formatter: function (params) {
+                                var str = '';
+                                str += '{a|' + params.value[2] + '}';
+                                str += '{b|\n' + params.value[3] + '}';
+                                return str;
+                            },
+                            rich: {
+                                a: {
+                                    color: colors[0],
+                                    fontFamily: 'myFont',
+                                    fontSize: 16,
+                                    align: 'center'
+                                },
+                                b: {
+                                    color: colors[1],
+                                    fontFamily: 'myFont',
+                                    fontSize: 16,
+                                    align: 'center'
+                                }
+                            },
+                            color: '#fff',//此行代码为了解决labelformater字体描边问题
+                            show: true
+                        }
+                    },
+                    hoverAnimation: true,
+                    symbol: 'image://./imgs/tip.png',
+                    data: scatterData,
+                }
+            ]
+        }
+
+        var timmer = null,
+            speed = 5000;
+        myChart.setOption(option);
+        timmer = setTimeout(function () {
+            option.series[1].data = [];
+            myChart.setOption(option, {
+                notMerge: true
+            });
+            option.series[1].data = linesData;
+            myChart.setOption(option, {
+                notMerge: true
+            });
+            setTimeout(arguments.callee, speed);
+        }, speed)
+    </script>
+</body>
+
+</html>
