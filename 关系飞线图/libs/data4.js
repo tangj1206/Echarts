@@ -18,6 +18,10 @@ var center = [885, 885],//坐标中心点
 var QUPointRadius = 10,
     JGPointRadius = 15;
 
+//label 偏移量
+var QULabelOffset = 70,
+    JGLabelOffset = 60;
+
 var QUPoints = {};//区坐标分配
 var JGPoints = {};//机构坐标分配
 
@@ -60,11 +64,8 @@ function initPoints() {
             value: QUTotal[index],
             symbolRotate: -360 / QUTotal.length * index - 90,
             label: {
-                show: true,
-                position: 'inside',
-                fontSize: 26,
-                offset: [60 * Math.cos(angle), 60 * Math.sin(angle)],
-                rotate: -360 / QUTotal.length * index 
+                offset: [QULabelOffset * Math.cos(angle), QULabelOffset * Math.sin(angle)],
+                rotate: -360 / QUTotal.length * index -180
             },
             x: item[0],
             y: item[1]
@@ -78,11 +79,8 @@ function initPoints() {
             value: JGTotal[index],
             symbolRotate: -360 / JGTotal.length * index - 90,
             label: {
-                show: true,
-                position: 'inside',
-                fontSize: 26,
-                offset: [60 * Math.cos(angle), 60 * Math.sin(angle)],
-                rotate: -360 / JGTotal.length * index 
+                offset: [JGLabelOffset * Math.cos(angle), JGLabelOffset * Math.sin(angle)],
+                rotate: -360 / JGTotal.length * index -180
             },
             x: item[0],
             y: item[1]

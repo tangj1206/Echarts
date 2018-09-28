@@ -100,14 +100,17 @@
             },
             //区-图
             {
-                name:'qu',
+                name: 'qu',
                 zlevel: 1,
                 type: 'lines',
                 markPoint: {
                     symbol: 'image://../imgs/dot.png',
                     data: QUMarkPoint,
-                    label:{
-                        color:'#51FFFF'
+                    label: {
+                        show: true,
+                        position: 'inside',
+                        fontSize: 30,
+                        color: '#51FFFF'
                     }
                 },
                 coordinateSystem: 'cartesian2d',
@@ -125,13 +128,13 @@
                     trailLength: 0.01,
                     symbolSize: 10
                 },
-                markLine:{
-                    symbol:['arrow','none'],
-                    lineStyle:{
-                        type:'solid',
-                        opacity:.5
+                markLine: {
+                    symbol: ['arrow', 'none'],
+                    lineStyle: {
+                        type: 'solid',
+                        opacity: .5
                     },
-                    data:QUMarkLines
+                    data: QUMarkLines
                 },
                 data: QULine
             },
@@ -140,10 +143,13 @@
                 zlevel: 1,
                 type: 'lines',
                 markPoint: {
-                    symbolSize:1,
+                    symbolSize: 1,
                     data: JGMarkPoint,
-                    label:{
-                        color:'#51FFFF'
+                    label: {
+                        color: '#51FFFF',
+                        show: true,
+                        position: 'inside',
+                        fontSize: 30
                     }
                 },
                 coordinateSystem: 'cartesian2d',
@@ -162,16 +168,16 @@
                     trailLength: 0.01,
                     symbolSize: 10
                 },
-                markLine:{
-                    symbol:['arrow','none'],
-                    lineStyle:{
-                        type:'solid',
-                        color:'#257981',
-                        opacity:.5
+                markLine: {
+                    symbol: ['arrow', 'none'],
+                    lineStyle: {
+                        type: 'solid',
+                        color: '#257981',
+                        opacity: .5
                     },
-                    data:JGMarkLines
+                    data: JGMarkLines
                 },
-                data:JGLine
+                data: JGLine
             }]
         //配置项
         var option = {
