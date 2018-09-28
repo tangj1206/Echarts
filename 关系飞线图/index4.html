@@ -98,29 +98,14 @@
                     value: [885, 885]
                 }]
             },
-            //区-圆点图
-            /* {
-                zlevel: 4,
-                type: 'graph',
-                layout: 'none',
-                coordinateSystem: 'cartesian2d',
-                symbol:'image://../imgs/dot.png',
-                symbolSize: 50,
-                label: {
-                    show: true,
-                    fontSize:26,
-                    position: 'top',
-                    rotate: 30
-                },
-                data: points1
-            }, */
             //区-图
             {
+                name:'qu',
                 zlevel: 1,
                 type: 'lines',
                 markPoint: {
                     symbol: 'image://../imgs/dot.png',
-                    data: points1,
+                    data: QUMarkPoint,
                     label:{
                         color:'#51FFFF'
                     }
@@ -129,9 +114,8 @@
                 lineStyle: {
                     color: '#ffa022',
                     width: 1,
-                    opacity: 0.5
+                    opacity: 1
                 },
-                //symbol: ['none', 'arrow'],
                 symbolSize: 20,
                 effect: {
                     show: true,
@@ -144,20 +128,20 @@
                 markLine:{
                     symbol:['arrow','none'],
                     lineStyle:{
-                        type:'solid'
+                        type:'solid',
+                        opacity:.5
                     },
-                    data:markLine1
+                    data:QUMarkLines
                 },
-                data: lines1
+                data: QULine
             },
             //机构-图
             {
                 zlevel: 1,
                 type: 'lines',
                 markPoint: {
-                    //symbol: 'image://../imgs/dot.png',
                     symbolSize:1,
-                    data: points2,
+                    data: JGMarkPoint,
                     label:{
                         color:'#51FFFF'
                     }
@@ -166,7 +150,7 @@
                 lineStyle: {
                     color: '#257981',
                     width: 2,
-                    opacity: 0.5
+                    opacity: 1
                 },
                 symbol: ['none', 'arrow'],
                 symbolSize: 20,
@@ -182,11 +166,12 @@
                     symbol:['arrow','none'],
                     lineStyle:{
                         type:'solid',
-                        color:'#257981'
+                        color:'#257981',
+                        opacity:.5
                     },
-                    data:markLine2
+                    data:JGMarkLines
                 },
-                data: lines2
+                data:JGLine
             }]
         //配置项
         var option = {
