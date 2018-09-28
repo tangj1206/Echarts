@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大数据中心</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+        }
+
+        .wrap {
+            background-color: #2c343c;
+        }
+        
+        #chart{
+            margin: 0 auto;
+        }
+
+        .tooltip {
+            width: 100px;
+            height: 65px;
+            line-height: 65px;
+            text-align: center;
+            background-size: 100% 100%;
+            color: #42ca83;
+            background: url(./imgs/tip.png) no-repeat center;
+        }
+
+        @font-face {
+            font-family: 'myFont';
+            src: url('./fonts/DS-DIGIB.TTF');
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 1853 1730 3413 2400-->
+    <div class="wrap">
+        <div id="chart" style="width:1770px;height:1770px;"></div>
+    </div>
+    <!-- <script type="text/javascript" src="/libs/echarts-3.8.5.js"></script> -->
+    <script type="text/javascript" src="/libs/echarts.min.js"></script>
+    <script type="text/javascript" src="/libs/data4.js"></script>
+    <script type="text/javascript">
+        //初始化dom元素
+        var myChart = echarts.init(document.getElementById('chart'));
+        var series = [
+            //四大库
+            {
+                zlevel: 2,
+                name: '库',
+                type: 'pie',
+                radius: 198,
+                label: {
+                    position: 'inside',
+                    fontSize: 20
+                },
+                data: [
+                    {
+                        name: '人口库',
+                        value: 10
+                    }, {
+                        name: '法人库',
+                        value: 10
+                    },
+                    {
+                        name: '电子证照库',
+                        value: 10
+                    }, {
+                        name: '空间地理库',
+                        value: 10
+                    }
+                ]
+            },
+            //一网通办
+            {
+                zlevel: 3,
+                type: 'scatter',
+                coordinateSystem: 'cartesian2d',
+                symbol: 'image://../imgs/huan.png',
+                symbolSize: 1412,
+                symbolOffset: [0, 0],
+                data: [{
+                    name: '一网通办',
+                    value: [885, 885]
+                }]
+            },
+            //区-圆点图
+            /* {
+                zlevel: 4,
+                type: 'graph',
+                layout: 'none',
+                coordinateSystem: 'cartesian2d',
+                symbol:'image://../imgs/dot.png',
+                symbolSize: 50,
+                label: {
+                    show: true,
+                    fontSize:26,
+                    position: 'top',
+                    rotate: 30
+                },
+                data: points1
+            }, */
+            //区-图
+            {
+                zlevel: 1,
+                type: 'lines',
+                markPoint: {
+                    symbol: 'image://../imgs/dot.png',
+                    data: points1
+                },
+                coordinateSystem: 'cartesian2d',
+                lineStyle: {
+                    color: '#ffa022',
+                    width: 1,
+                    opacity: 0.5
+                },
+                symbol: ['none', 'arrow'],
+                symbolSize: 20,
+                effect: {
+                    show: true,
+                    symbol: 'arrow',
+                    delay: 1,
+                    period: 3,
+                    trailLength: 0.01,
+                    symbolSize: 10
+                },
+                data: lines1
+            },
+            //机构-图
+            {
+                zlevel: 1,
+                type: 'lines',
+                markPoint: {
+                    //symbol: 'image://../imgs/dot.png',
+                    symbolSize:1,
+                    data: points2
+                },
+                coordinateSystem: 'cartesian2d',
+                lineStyle: {
+                    color: '#ffa022',
+                    width: 2,
+                    opacity: 0.5
+                },
+                symbol: ['none', 'arrow'],
+                symbolSize: 20,
+                effect: {
+                    show: true,
+                    symbol: 'arrow',
+                    delay: 1,
+                    period: 3,
+                    trailLength: 0.01,
+                    symbolSize: 10
+                },
+                markLine:{
+                    symbol:['none','arrow'],
+                    lineStyle:{
+                        type:'solid'
+                    },
+                    data:markLine2
+                },
+                data: []
+            }]
+        //配置项
+        var option = {
+            grid: {
+                left: 0,
+                top: 0,
+                bottom: 0,
+                right: 0
+            },
+            xAxis: {
+                show: false,
+                type: 'value',
+                max: 1770,
+                interval: 10
+            },
+            yAxis: {
+                show: false,
+                type: 'value',
+                max: 1770,
+                interval: 10
+            },
+            series: series
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+
+</html>
