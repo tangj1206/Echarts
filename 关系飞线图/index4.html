@@ -60,10 +60,10 @@
         var series = [
             //四大库
             {
-                zlevel: 2,
+                zlevel: 3,
                 name: '库',
                 type: 'pie',
-                radius: 198,
+                radius: 200,
                 label: {
                     position: 'inside',
                     fontSize: 20
@@ -87,10 +87,11 @@
             },
             //一网通办
             {
-                zlevel: 3,
+                zlevel:1,
                 type: 'scatter',
                 coordinateSystem: 'cartesian2d',
                 symbol: 'image://../imgs/huan.png',
+                hoverAnimation:false,
                 symbolSize: 1412,
                 symbolOffset: [0, 0],
                 data: [{
@@ -100,10 +101,16 @@
             },
             //区-图
             {
+                zlevel:2,
                 name: 'qu',
-                zlevel: 1,
                 type: 'lines',
                 markPoint: {
+                    emphasis: {
+                        label: {
+                            color: 'red',
+                            fontSize:50
+                        }
+                    },
                     symbol: 'image://../imgs/dot.png',
                     data: QUMarkPoint,
                     label: {
@@ -116,7 +123,7 @@
                 coordinateSystem: 'cartesian2d',
                 lineStyle: {
                     color: '#ffa022',
-                    width: 1,
+                    width: 2,
                     opacity: 1
                 },
                 symbolSize: 20,
@@ -132,7 +139,7 @@
                     symbol: ['arrow', 'none'],
                     lineStyle: {
                         type: 'solid',
-                        opacity: .5
+                        opacity: .3
                     },
                     data: QUMarkLines
                 },
@@ -140,7 +147,7 @@
             },
             //机构-图
             {
-                zlevel: 1,
+                zlevel: 2,
                 type: 'lines',
                 markPoint: {
                     symbolSize: 1,
@@ -173,7 +180,7 @@
                     lineStyle: {
                         type: 'solid',
                         color: '#257981',
-                        opacity: .5
+                        opacity: .3
                     },
                     data: JGMarkLines
                 },

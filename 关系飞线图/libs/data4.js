@@ -237,7 +237,7 @@ initBigCircle();
 updateLines(QUlinks,JGlinks);
 
 
-var points1 = [];
+/* var points1 = [];
 var lines1 = [];
 var count1 = 16;
 var markLine1 = [];
@@ -367,7 +367,7 @@ for (let i = 0; i < points2.length; i++) {
         ]
     })
 
-}
+} */
 
 
 
