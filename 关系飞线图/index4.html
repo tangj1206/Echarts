@@ -120,7 +120,10 @@
                 type: 'lines',
                 markPoint: {
                     symbol: 'image://../imgs/dot.png',
-                    data: points1
+                    data: points1,
+                    label:{
+                        color:'#51FFFF'
+                    }
                 },
                 coordinateSystem: 'cartesian2d',
                 lineStyle: {
@@ -128,34 +131,7 @@
                     width: 1,
                     opacity: 0.5
                 },
-                symbol: ['none', 'arrow'],
-                symbolSize: 20,
-                effect: {
-                    show: true,
-                    symbol: 'arrow',
-                    delay: 1,
-                    period: 3,
-                    trailLength: 0.01,
-                    symbolSize: 10
-                },
-                data: lines1
-            },
-            //机构-图
-            {
-                zlevel: 1,
-                type: 'lines',
-                markPoint: {
-                    //symbol: 'image://../imgs/dot.png',
-                    symbolSize:1,
-                    data: points2
-                },
-                coordinateSystem: 'cartesian2d',
-                lineStyle: {
-                    color: '#ffa022',
-                    width: 2,
-                    opacity: 0.5
-                },
-                symbol: ['none', 'arrow'],
+                //symbol: ['none', 'arrow'],
                 symbolSize: 20,
                 effect: {
                     show: true,
@@ -166,13 +142,51 @@
                     symbolSize: 10
                 },
                 markLine:{
-                    symbol:['none','arrow'],
+                    symbol:['arrow','none'],
                     lineStyle:{
                         type:'solid'
                     },
+                    data:markLine1
+                },
+                data: lines1
+            },
+            //机构-图
+            {
+                zlevel: 1,
+                type: 'lines',
+                markPoint: {
+                    //symbol: 'image://../imgs/dot.png',
+                    symbolSize:1,
+                    data: points2,
+                    label:{
+                        color:'#51FFFF'
+                    }
+                },
+                coordinateSystem: 'cartesian2d',
+                lineStyle: {
+                    color: '#257981',
+                    width: 2,
+                    opacity: 0.5
+                },
+                symbol: ['none', 'arrow'],
+                symbolSize: 20,
+                effect: {
+                    show: true,
+                    symbol: 'arrow',
+                    delay: 1,
+                    period: 3.5,
+                    trailLength: 0.01,
+                    symbolSize: 10
+                },
+                markLine:{
+                    symbol:['arrow','none'],
+                    lineStyle:{
+                        type:'solid',
+                        color:'#257981'
+                    },
                     data:markLine2
                 },
-                data: []
+                data: lines2
             }]
         //配置项
         var option = {

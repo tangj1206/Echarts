@@ -30,12 +30,14 @@ var points,
 
 var lines1 = [];
 var count1 = 16;
+var markLine1 = [];
 var areaRadius1 = 10;//区单个小圆半径
 //区 - 点集
 points1 = getPoint(r1, center[0], center[1], count1).map(function (item, index) {
     let angle = Math.PI * 2 / count1 * index;
     return {
         value: '区-' + index,
+        symbolRotate:360 / count1 * index - 180,
         label: {
             show: true,
             position: 'inside',
@@ -54,6 +56,27 @@ for (let i = 0; i < points1.length; i++) {
     let y = center[1] + (r1 - 20) * Math.sin(angle);
     let rx = areaRadius1 * Math.sin(angle);
     let ry = areaRadius1 * Math.cos(angle);
+    markLine1.push([
+        {
+            x:center[0],
+            y:center[1]
+        },
+        {
+            x:x - rx,
+            y:y + ry
+        }
+    ]);
+
+    markLine1.push([
+        {
+            x:x + rx,
+            y:y - ry
+        },
+        {
+            x:center[0],
+            y:center[1]
+        }
+    ]);
 
     lines1.push({
         coords: [
@@ -79,12 +102,12 @@ var areaRadius2 = 5;
 points2 = getPoint(r2, center[0], center[1], count2).map(function (item, index) {
     let angle = Math.PI * 2 / count2 * index;
     return {
-        value: '区-' + index,
+        value: '机构-' + index,
         label: {
             show: true,
             position: 'inside',
             fontSize: 26,
-            offset: [60 * Math.sin(angle), 60 * Math.cos(angle)],
+            offset: [40 * Math.sin(angle), 40 * Math.cos(angle)],
             rotate: 360 / count2 * index - 90
         },
         x: item[0],
@@ -94,8 +117,8 @@ points2 = getPoint(r2, center[0], center[1], count2).map(function (item, index) 
 
 for (let i = 0; i < points2.length; i++) {
     let angle = Math.PI * 2 / count2 * i;
-    let x = center[0] + (r2 ) * Math.cos(angle);
-    let y = center[1] + (r2 ) * Math.sin(angle);
+    let x = center[0] + (r2-15 ) * Math.cos(angle);
+    let y = center[1] + (r2-15 ) * Math.sin(angle);
     let rx = areaRadius2 * Math.sin(angle);
     let ry = areaRadius2 * Math.cos(angle);
 
